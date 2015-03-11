@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--This file represents the results of running a test suite-->
+<test-results name="E:\git\MyBranch\mozu-dotnet\Libraries\Mozu.Api.ToolKit\packages\NUnit.Runners\tools\pnunit.tests.dll" total="1" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2014-11-06" time="16:31:46">
+  <environment nunit-version="2.6.3.13283" clr-version="2.0.50727.8009" os-version="Microsoft Windows NT 6.2.9200.0" platform="Win32NT" cwd="E:\git\MyBranch\mozu-dotnet\Libraries\Mozu.Api.ToolKit" machine-name="TXMAC120-VM3" user="sanjay_mandadi" user-domain="CORP" />
+  <culture-info current-culture="en-US" current-uiculture="en-US" />
+  <test-suite type="Assembly" name="E:\git\MyBranch\mozu-dotnet\Libraries\Mozu.Api.ToolKit\packages\NUnit.Runners\tools\pnunit.tests.dll" executed="True" result="Success" success="True" time="0.184" asserts="0">
+    <results>
+      <test-suite type="Namespace" name="TestLibraries" executed="True" result="Success" success="True" time="0.101" asserts="0">
+        <results>
+          <test-suite type="TestFixture" name="Testing" executed="True" result="Success" success="True" time="0.099" asserts="0">
+            <results>
+              <test-case name="TestLibraries.Testing.EqualTo19" executed="True" result="Success" success="True" time="0.069" asserts="1" />
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>
