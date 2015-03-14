@@ -22,7 +22,7 @@ namespace Mozu.Api.ToolKit.Handlers
         Customers
     }
 
-    public interface IExtensionHandler
+    public interface ISubnavLinkHandler
     {
 
         Task AddUpdateExtensionLinkAsync(int tenantId, Parent parent, string href, string windowTitle, String[] path);
@@ -31,7 +31,7 @@ namespace Mozu.Api.ToolKit.Handlers
 
     }
 
-    public class ExtensionHandler : IExtensionHandler
+    public class SubnavLinkHandler : ISubnavLinkHandler
     {
         private const string SubnavLinkEntityName = "subnavlinks@mozu";
 
