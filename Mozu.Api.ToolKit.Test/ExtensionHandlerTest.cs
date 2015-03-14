@@ -13,13 +13,13 @@ namespace Mozu.Api.ToolKit.Test
     [TestClass]
     public class ExtensionHandlerTest : BaseTest
     {
-        private IExtensionHandler _extensionHandler;
+        private ISubnavLinkHandler _subnavLinkHandler;
         private string _appUrl = "https://f6b273a766009bfb.a.passageway.io/app";
 
         [TestInitialize]
         public void Initialize()
         {
-            _extensionHandler = Container.Resolve<IExtensionHandler>();
+            _subnavLinkHandler = Container.Resolve<ISubnavLinkHandler>();
         }
 
         [TestMethod]
@@ -32,7 +32,7 @@ namespace Mozu.Api.ToolKit.Test
                 Path = new []{ "MyApp", "Orders" },
                 WindowTitle = "My Extension App Orders"
             };
-            _extensionHandler.AddUpdateExtensionLinkAsync(TenantId, subNavlink).Wait();
+            _subnavLinkHandler.AddUpdateExtensionLinkAsync(TenantId, subNavlink).Wait();
         }
 
 
@@ -46,7 +46,7 @@ namespace Mozu.Api.ToolKit.Test
                 Path = new[] { "MyApp", "Products" },
                 WindowTitle = "My Extension App Products"
             };
-            _extensionHandler.AddUpdateExtensionLinkAsync(TenantId, subNavlink).Wait();
+            _subnavLinkHandler.AddUpdateExtensionLinkAsync(TenantId, subNavlink).Wait();
         }
 
 
@@ -60,13 +60,13 @@ namespace Mozu.Api.ToolKit.Test
                 Path = new[] { "MyApp", "Contacts" },
                 WindowTitle = "My Extension App Contacts"
             };
-            _extensionHandler.AddUpdateExtensionLinkAsync(TenantId, subNavlink).Wait();
+            _subnavLinkHandler.AddUpdateExtensionLinkAsync(TenantId, subNavlink).Wait();
         }
 
         [TestMethod]
         public void DeleteLinksTest()
         {
-            _extensionHandler.Delete(TenantId).Wait();
+            _subnavLinkHandler.Delete(TenantId).Wait();
         }
 
     }
