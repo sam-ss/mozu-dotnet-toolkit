@@ -29,11 +29,11 @@ namespace Mozu.Api.ToolKit.Events
             var eventType = eventPayLoad.Topic.Split('.');
             var topic = eventType[0];
 
-            if (topic != "application" && !IsAppEnabled(apiContext).Result)
+            /*if (topic != "application" && !IsAppEnabled(apiContext).Result)
             {
                 _logger.Info("App is not enabled, skipping processing of event");
                 return;
-            }
+            }*/
 
             if (String.IsNullOrEmpty(topic))
                 throw new ArgumentException("Topic cannot be null or empty");
