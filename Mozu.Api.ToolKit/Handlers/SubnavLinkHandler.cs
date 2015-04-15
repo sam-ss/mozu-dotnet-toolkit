@@ -27,7 +27,7 @@ namespace Mozu.Api.ToolKit.Handlers
 
         Task AddUpdateExtensionLinkAsync(int tenantId, Parent parent, string href, string windowTitle, String[] path);
         Task AddUpdateExtensionLinkAsync(int tenantId, SubnavLink subnavLink);
-        Task Delete(int tenantId);
+        Task Delete(int tenantId, SubnavLink subnavLink=null);
 
     }
 
@@ -56,17 +56,33 @@ namespace Mozu.Api.ToolKit.Handlers
             await AddUpdateSubNavLink(apiContext, subnavLink);
         }
 
-        public async Task Delete(int tenantId)
+        public async Task Delete(int tenantId, SubnavLink subNavlink = null)
         {
             var apiContext = new ApiContext(tenantId);
             var entityContainerResource = new EntityContainerResource(apiContext);
             var collection = await entityContainerResource.GetEntityContainersAsync(SubnavLinkEntityName, 200);
             var entityResource = new EntityResource(apiContext);
 
-            var appId = await GetAppId(apiContext);
-            foreach (var item in collection.Items.Where(subnavLink => subnavLink.Item.ToObject<SubnavLink>().AppId.Equals(appId)))
+            if (subNavlink == null)
             {
-                await entityResource.DeleteEntityAsync(SubnavLinkEntityName, item.Id);
+                var appId = await GetAppId(apiContext);
+                foreach (
+                    var item in
+                        collection.Items.Where(subnavLink => subnavLink.Item.ToObject<SubnavLink>().AppId.Equals(appId))
+                    )
+                {
+                    await entityResource.DeleteEntityAsync(SubnavLinkEntityName, item.Id);
+                }
+            }
+            else
+            {
+                if (subNavlink.ParentId == null || subNavlink.Path == null || !subNavlink.Path.Any())
+                    throw new Exception("ParentId and Path is required to delete a link");
+                var existing = collection.Items.SingleOrDefault(x => subNavlink.Path.SequenceEqual(x.Item.ToObject<SubnavLink>().Path)
+                    && subNavlink.ParentId == x.Item.ToObject<SubnavLink>().ParentId);
+                
+                if (existing != null)
+                    await entityResource.DeleteEntityAsync(SubnavLinkEntityName, existing.Id);
             }
 
         }
@@ -75,13 +91,6 @@ namespace Mozu.Api.ToolKit.Handlers
         {
             var entityContainerResource = new EntityContainerResource(apiContext);
             var collection = await entityContainerResource.GetEntityContainersAsync(SubnavLinkEntityName, 200);
-
-            /*foreach (var item in collection.Items)
-            {
-                var obj = item.Item.ToObject<SubnavLink>();
-                var sameParent = obj.ParentId == subnavLink.ParentId;
-                var samePath = subnavLink.Path.SequenceEqual(obj.Path);
-            }*/
 
             var existing = collection.Items.SingleOrDefault(x => subnavLink.Path.SequenceEqual(x.Item.ToObject<SubnavLink>().Path)
                 && subnavLink.ParentId == x.Item.ToObject<SubnavLink>().ParentId);
