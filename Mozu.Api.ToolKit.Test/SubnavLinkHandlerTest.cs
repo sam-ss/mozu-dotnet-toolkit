@@ -11,7 +11,7 @@ using Mozu.Api.ToolKit.Models;
 namespace Mozu.Api.ToolKit.Test
 {
     [TestClass]
-    public class ExtensionHandlerTest : BaseTest
+    public class SubnavLinkHandlerTest : BaseTest
     {
         private ISubnavLinkHandler _subnavLinkHandler;
         private string _appUrl = "https://f6b273a766009bfb.a.passageway.io/app";
@@ -69,5 +69,18 @@ namespace Mozu.Api.ToolKit.Test
             _subnavLinkHandler.Delete(TenantId).Wait();
         }
 
+
+        [TestMethod]
+        public void DeleteLinkTest()
+        {
+            var subNavlink = new SubnavLink
+            {
+                ParentId = Parent.Customers,
+                Href = String.Format("{0}/contacts", _appUrl),
+                Path = new[] { "MyApp", "Contacts" },
+                WindowTitle = "My Extension App Contacts"
+            };
+            _subnavLinkHandler.Delete(TenantId, subNavlink).Wait();
+        }
     }
 }
