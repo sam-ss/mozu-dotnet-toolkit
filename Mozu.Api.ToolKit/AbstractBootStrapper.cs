@@ -64,6 +64,7 @@ namespace Mozu.Api.ToolKit
             _containerBuilder.RegisterType<DiscountEventProcessor>().Keyed<IEventProcessor>(EventCategory.Discount);
             _containerBuilder.RegisterType<CustomerSegmentEventProcessor>().Keyed<IEventProcessor>(EventCategory.CustomerSegment);
             _containerBuilder.RegisterType<TenantEventProcessor>().Keyed<IEventProcessor>(EventCategory.Tenant);
+            _containerBuilder.RegisterType<EmailEventProcessor>().Keyed<IEventProcessor>(EventCategory.Email);
 
 
             InitializeContainer(_containerBuilder);
