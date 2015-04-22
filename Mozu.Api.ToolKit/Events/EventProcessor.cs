@@ -168,4 +168,19 @@ namespace Mozu.Api.ToolKit.Events
             await ExecuteAsync(events);
         }
     }
+
+    public class EmailEventProcessor : EventProcessorBase, IEventProcessor
+    {
+        private readonly ILogger _logger = LogManager.GetLogger(typeof(EmailEventProcessor));
+        public async Task ProcessAsync(IComponentContext container, IApiContext apiContext, Event eventPayLoad)
+        {
+            EventPayLoad = eventPayLoad;
+            ApiContext = apiContext;
+            Container = container;
+            _logger.Info("Processing Email event");
+            var events = Container.Resolve<IEmailEvents>();
+            if (events == null) throw new ArgumentNullException("IEmailEvents is not registered");
+            await ExecuteAsync(events);
+        }
+    }
 }
