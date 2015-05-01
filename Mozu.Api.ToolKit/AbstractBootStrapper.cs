@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Reflection;
 using Autofac;
 using Mozu.Api.Contracts.AppDev;
 using Mozu.Api.Events;
@@ -53,8 +54,11 @@ namespace Mozu.Api.ToolKit
             _containerBuilder.RegisterType<Log4NetServiceFactory>().As<ILoggingServiceFactory>().SingleInstance();
             _containerBuilder.RegisterType<Events.EventService>().As<IEventService>();
             _containerBuilder.RegisterType<Events.EventServiceFactory>().As<IEventServiceFactory>();
-            _containerBuilder.RegisterType<SubnavLinkHandler>().As<ISubnavLinkHandler>();
-            _containerBuilder.RegisterType<EntityHandler>().As<IEntityHandler>();
+
+            _containerBuilder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
+               .Where(t => t.Name.EndsWith("Handler"))
+               .AsImplementedInterfaces();
+
             _containerBuilder.RegisterType<EntitySchemaHandler>().As<IEntitySchemaHandler>();
             _containerBuilder.RegisterType<ReturnEventProcessor>().Keyed<IEventProcessor>(EventCategory.Return);
             _containerBuilder.RegisterType<ProductEventProcessor>().Keyed<IEventProcessor>(EventCategory.Product);
