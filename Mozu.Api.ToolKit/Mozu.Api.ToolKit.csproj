@@ -91,6 +91,8 @@
     <Compile Include="Readers\DiscountReader.cs" />
     <Compile Include="Readers\DocumentReader.cs" />
     <Compile Include="Readers\EntityReader.cs" />
+    <Compile Include="Readers\EventReader.cs" />
+    <Compile Include="Readers\EventSummaryReader.cs" />
     <Compile Include="Readers\LocationInventoryReader.cs" />
     <Compile Include="Readers\LocationReader.cs" />
     <Compile Include="Readers\OrderReader.cs" />
