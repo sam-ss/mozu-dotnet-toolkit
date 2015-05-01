@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mozu.Api.ToolKit", "Mozu.Api.ToolKit\Mozu.Api.ToolKit.csproj", "{707B281E-2F13-40B1-BF66-0C4669FCE1EF}"
 EndProject
@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{5D572CB2
 	ProjectSection(SolutionItems) = preProject
 		Build.cmd = Build.cmd
 		Build.fsx = Build.fsx
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mozu.Api.ToolKit.Test", "Mozu.Api.ToolKit.Test\Mozu.Api.ToolKit.Test.csproj", "{41A3A3D0-C07B-4195-9321-029539BA8D22}"

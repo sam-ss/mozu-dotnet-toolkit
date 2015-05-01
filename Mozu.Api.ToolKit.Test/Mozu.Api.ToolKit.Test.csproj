@@ -75,6 +75,7 @@
   <ItemGroup>
     <Compile Include="BaseTest.cs" />
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="EmailHandlerTest.cs" />
     <Compile Include="EntityHandlerTest.cs" />
     <Compile Include="SubnavLinkHandlerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

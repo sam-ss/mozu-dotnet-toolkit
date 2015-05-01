@@ -6,6 +6,9 @@ using Mozu.Api.Contracts.Event;
 using Mozu.Api.Events;
 using Mozu.Api.Logging;
 using Mozu.Api.Resources.Commerce.Settings;
+using Mozu.Api.ToolKit.Handlers;
+using Mozu.Api.ToolKit.Models;
+using Newtonsoft.Json;
 
 namespace Mozu.Api.ToolKit.Events
 {
@@ -13,43 +16,40 @@ namespace Mozu.Api.ToolKit.Events
     {
         private readonly ILogger _logger = LogManager.GetLogger(typeof(EventService));
         private readonly IComponentContext _container;
+        private readonly IEmailHandler _emailHandler;
 
-        public EventService(IComponentContext container)
+        public EventService(IComponentContext container, IEmailHandler emailHandler)
         {
             _container = container;
+            _emailHandler = emailHandler;
         }
 
         public async Task ProcessEventAsync(IApiContext apiContext, Event eventPayLoad)
         {
-            Trace.CorrelationManager.ActivityId = !String.IsNullOrEmpty(apiContext.CorrelationId) ? Guid.Parse(apiContext.CorrelationId) : Guid.NewGuid();
-
-            _logger.Info(String.Format("Got Event {0} for tenant {1}", eventPayLoad.Topic, apiContext.TenantId));
-
-
-            var eventType = eventPayLoad.Topic.Split('.');
-            var topic = eventType[0];
-
-            /*if (topic != "application" && !IsAppEnabled(apiContext).Result)
+            try
             {
-                _logger.Info("App is not enabled, skipping processing of event");
-                return;
-            }*/
+                Trace.CorrelationManager.ActivityId = !String.IsNullOrEmpty(apiContext.CorrelationId)
+                    ? Guid.Parse(apiContext.CorrelationId)
+                    : Guid.NewGuid();
 
-            if (String.IsNullOrEmpty(topic))
-                throw new ArgumentException("Topic cannot be null or empty");
+                _logger.Info(String.Format("Got Event {0} for tenant {1}", eventPayLoad.Topic, apiContext.TenantId));
 
-            var eventCategory = (EventCategory)(Enum.Parse(typeof(EventCategory), topic, true));
-            var eventProcessor = _container.ResolveKeyed<IEventProcessor>(eventCategory);
-            await eventProcessor.ProcessAsync(_container, apiContext, eventPayLoad);
 
-        }
+                var eventType = eventPayLoad.Topic.Split('.');
+                var topic = eventType[0];
 
-        private async Task<bool> IsAppEnabled(IApiContext apiContext)
-        {
-            var applicationResource = new ApplicationResource(apiContext);
-            var application = await applicationResource.ThirdPartyGetApplicationAsync();
+                if (String.IsNullOrEmpty(topic))
+                    throw new ArgumentException("Topic cannot be null or empty");
 
-            return application.Enabled.GetValueOrDefault(false);
+                var eventCategory = (EventCategory) (Enum.Parse(typeof (EventCategory), topic, true));
+                var eventProcessor = _container.ResolveKeyed<IEventProcessor>(eventCategory);
+                await eventProcessor.ProcessAsync(_container, apiContext, eventPayLoad);
+            }
+            catch (Exception exc)
+            {
+                _emailHandler.SendErrorEmail(new ErrorInfo{Message = "Error Processing Event : "+ JsonConvert.SerializeObject(eventPayLoad), Context = apiContext, Exception = exc});
+                throw exc;
+            }
         }
 
     }

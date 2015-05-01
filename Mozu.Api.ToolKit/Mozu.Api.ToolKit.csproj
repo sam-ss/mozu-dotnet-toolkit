@@ -73,11 +73,14 @@
     <Compile Include="Events\EventServiceFactory.cs" />
     <Compile Include="Handlers\EntityHandler.cs" />
     <Compile Include="Handlers\EntitySchemaHandler.cs" />
+    <Compile Include="Handlers\EmailHandler.cs" />
+    <Compile Include="Handlers\SiteHandler.cs" />
     <Compile Include="Handlers\SubnavLinkHandler.cs" />
     <Compile Include="Logging\IloggingServiceFactory.cs" />
     <Compile Include="Logging\Log4NetLogger.cs" />
     <Compile Include="Logging\Log4NetService.cs" />
     <Compile Include="Logging\Log4NetServiceFactory.cs" />
+    <Compile Include="Models\ErrorInfo.cs" />
     <Compile Include="Models\SubnavLink.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Readers\AttributeReader.cs" />
@@ -101,10 +104,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="install.ps1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Mozu.Api.ToolKit.nuspec">
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="EmailTemplates\ErrorEmailTemplate.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

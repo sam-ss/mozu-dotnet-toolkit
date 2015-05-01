@@ -19,7 +19,13 @@ namespace Mozu.Api.ToolKit.Handlers
     {
         Orders,
         Catalog,
-        Customers
+        Customers,
+        Marketing,
+        Sitebuilder, 
+        Settings, 
+        Locations, 
+        Publishing, 
+        Reports
     }
 
     public interface ISubnavLinkHandler
