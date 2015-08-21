@@ -9,6 +9,7 @@ namespace Mozu.Api.ToolKit.Config
         string ApplicationId { get; }
         string SharedSecret { get; }
         string BaseUrl { get; }
+        string BasePCIUrl { get; }
         string SMTPServerUrl { get; }
         IDictionary<string, Object> Settings { get; }
         string Log4NetConfig { get; }

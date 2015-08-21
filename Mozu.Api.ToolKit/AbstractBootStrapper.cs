@@ -82,8 +82,11 @@ namespace Mozu.Api.ToolKit
             {
                 if (!string.IsNullOrEmpty(appSetting.BaseUrl))
                     MozuConfig.BaseAppAuthUrl = appSetting.BaseUrl;
-                var appAuthenticator = AppAuthenticator.InitializeAsync(new AppAuthInfo { ApplicationId = appSetting.ApplicationId, SharedSecret = appSetting.SharedSecret }).Result;
 
+                if (!string.IsNullOrEmpty(appSetting.BasePCIUrl))
+                    MozuConfig.BasePciUrl = appSetting.BasePCIUrl;
+
+                var appAuthenticator = AppAuthenticator.InitializeAsync(new AppAuthInfo { ApplicationId = appSetting.ApplicationId, SharedSecret = appSetting.SharedSecret }).Result;
             }
 
 

@@ -26,6 +26,7 @@ namespace Mozu.Api.ToolKit.Handlers
         private readonly string _fromEmail;
         private readonly string _appName;
         private readonly ILogger _logger = LogManager.GetLogger(typeof(EmailHandler));
+        private string[] _emailSplitChars = new[] {";", ",", "\r", "\n"};
 
         public EmailHandler(IAppSetting appSetting)
         {
@@ -49,7 +50,7 @@ namespace Mozu.Api.ToolKit.Handlers
 
             var toEmails = new List<string>();
             if (!string.IsNullOrEmpty(toEmail))
-                  toEmails = toEmail.Split(new[] { ";", ",", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                toEmails = toEmail.Split(_emailSplitChars, StringSplitOptions.RemoveEmptyEntries).ToList();
 
             var content = LoadTemplate("ErrorEmailTemplate.txt");
             content = content.Replace("#{appName}", _appName).Replace("#{message}", errorInfo.Message).Replace("#{context}", errorInfo.ApiContextStr).Replace("#{exception}", errorInfo.Exception.ToString());
@@ -98,8 +99,10 @@ namespace Mozu.Api.ToolKit.Handlers
             message.From = fromAdderss;
             message.Body = body;
             message.Subject = subject;
-            if (toEmails.Count > 0) message.Bcc.Add(_supportEmail);
-            else if (!string.IsNullOrEmpty(_supportEmail)) toEmails.Add(_supportEmail);
+            if (!string.IsNullOrEmpty(_supportEmail))
+                toEmails.AddRange(_supportEmail.Split(_emailSplitChars, StringSplitOptions.RemoveEmptyEntries));
+            //if (toEmails.Count > 0) message.Bcc.Add(_supportEmail);
+            //else if (!string.IsNullOrEmpty(_supportEmail)) toEmails.Add(_supportEmail);
 
             if (toEmails.Count == 0) return;
 
