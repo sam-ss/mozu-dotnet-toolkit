@@ -25,5 +25,7 @@
     <file src="bin\Release\Mozu.Api.ToolKit.pdb" target="lib" />
     <file src="bin\Release\install.ps1" target="tools" />
     <file src="bin\Release\EmailTemplates\ErrorEmailTemplate.txt" target="content\EmailTemplates\ErrorEmailTemplate.txt" />
+    <file src="bin\Release\web.config.transform" target="content" />
+    <file src="bin\Release\app.config.transform" target="content" />
   </files>
 </package>

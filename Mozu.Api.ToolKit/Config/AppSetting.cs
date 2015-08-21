@@ -14,6 +14,7 @@ namespace Mozu.Api.ToolKit.Config
         public string SharedSecret { get; private set; }
         public string SMTPServerUrl { get; private set; }
         public string BaseUrl { get; private set; }
+        public string BasePCIUrl { get; private set; }
         public string Log4NetConfig { get; private set; }
         public string Namespace { get; private set; }
         public string Version { get; private set; }
@@ -47,6 +48,9 @@ namespace Mozu.Api.ToolKit.Config
             if (Settings.ContainsKey("MozuAuthUrl"))
                 BaseUrl = Settings["MozuAuthUrl"].ToString();
 
+            if (Settings.ContainsKey("MozuPCIUrl"))
+                BasePCIUrl = Settings["MozuPCIUrl"].ToString();
+
             if (Settings.ContainsKey("AppName"))
                 AppName = Settings["AppName"].ToString();
 
@@ -62,15 +66,10 @@ namespace Mozu.Api.ToolKit.Config
             {
                 ApplicationId = Settings["ApplicationId"].ToString();
                 ParseAppKey();
-               
             }
-
 
             if (Settings.ContainsKey("SharedSecret"))
                 SharedSecret = Settings["SharedSecret"].ToString();
-
-           
-
         }
 
         private void Init(string configPath, string appName, string environment)
@@ -100,7 +99,6 @@ namespace Mozu.Api.ToolKit.Config
             else
                 SMTPServerUrl = commonConfiguration.AppSettings.Settings["SmtpServer"].Value;
 
-           
             
             Settings = new Dictionary<string, object>();
 
