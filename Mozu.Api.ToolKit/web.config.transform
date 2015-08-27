@@ -1,9 +1,0 @@
-﻿<configuration>
-	<appSetting>
-		<add key="ApplicationId" value="" />
-		<add key="SharedSecret" value="" />
-    <!--Smpt Server format : smtp://[username]:[pwd]@[server]:[port]-->
-		<add key="SmtpServer" value="" />
-		<add key="SupportEmail" value="" />
-	</appSetting>
-</configuration>

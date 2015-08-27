@@ -36,9 +36,8 @@
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="Mozu.Api, Version=1.18.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Mozu.Api.SDK.1.18.1-RC2\lib\net45\Mozu.Api.dll</HintPath>
+    <Reference Include="Mozu.Api">
+      <HintPath>..\packages\Mozu.Api.SDK.1.18.1-RC3\lib\net45\Mozu.Api.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -86,6 +85,8 @@
     <Compile Include="Readers\AttributeReader.cs" />
     <Compile Include="Readers\BaseReader.cs" />
     <Compile Include="Readers\CategoryReader.cs" />
+    <Compile Include="Readers\CouponReader.cs" />
+    <Compile Include="Readers\CouponSetReader.cs" />
     <Compile Include="Readers\CustomerAccountReader.cs" />
     <Compile Include="Readers\CustomerAccountSegmentReader.cs" />
     <Compile Include="Readers\DiscountReader.cs" />
@@ -106,9 +107,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="app.config.transform">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="install.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -116,9 +114,6 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
-    <None Include="web.config.transform">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="EmailTemplates\ErrorEmailTemplate.txt">
