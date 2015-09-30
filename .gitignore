@@ -6,3 +6,7 @@ packages/*
 *.vspscc
 *.suo
 *.vssscc
+.fake/build.fsx_179A2926_config.xml
+.fake/build.fsx_A407C565_config.xml
+.fake/build.fsx_872A1247_config.xml
+.fake/build.fsx_872A1247.dll
