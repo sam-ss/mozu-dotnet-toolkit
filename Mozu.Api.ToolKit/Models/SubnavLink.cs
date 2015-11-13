@@ -12,5 +12,8 @@ namespace Mozu.Api.ToolKit.Models
         public string Href { get; set; }
         public string AppId { get; set; }
         public string WindowTitle { get; set; }
+        [JsonConverter(typeof(EnumLowerCaseConverter))]
+        public Context RequiredContext { get; set; }
+        public string Code { get; set; }
     }
 }

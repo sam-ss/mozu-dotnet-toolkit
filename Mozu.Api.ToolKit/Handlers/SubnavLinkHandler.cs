@@ -28,6 +28,15 @@ namespace Mozu.Api.ToolKit.Handlers
         Reports
     }
 
+    public enum Context
+    {
+        Orders,
+        Customer,
+        Discounts,
+        Location,
+        Products
+    }
+
     public interface ISubnavLinkHandler
     {
 
