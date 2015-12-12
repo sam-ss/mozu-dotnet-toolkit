@@ -40,7 +40,7 @@ namespace Mozu.Api.ToolKit.Handlers
     public interface ISubnavLinkHandler
     {
 
-        Task AddUpdateExtensionLinkAsync(int tenantId, Parent parent, string href, string windowTitle, String[] path);
+        Task AddUpdateExtensionLinkAsync(int tenantId, Parent parent, string href, string windowTitle, String[] path, Context? requiredContext = null);
         Task AddUpdateExtensionLinkAsync(int tenantId, SubnavLink subnavLink);
         Task Delete(int tenantId, SubnavLink subnavLink=null);
 
@@ -51,7 +51,7 @@ namespace Mozu.Api.ToolKit.Handlers
         private const string SubnavLinkEntityName = "subnavlinks@mozu";
 
 
-        public async Task AddUpdateExtensionLinkAsync(int tenantId, Parent parent, string href, string windowTitle, String[] path )
+        public async Task AddUpdateExtensionLinkAsync(int tenantId, Parent parent, string href, string windowTitle, String[] path, Context? requiredContext =null)
         {
 
             var link = new SubnavLink
@@ -60,7 +60,11 @@ namespace Mozu.Api.ToolKit.Handlers
                 WindowTitle = windowTitle,
                 Href = href,
                 Path = path
+                
             };
+
+            if (requiredContext.HasValue)
+                link.RequiredContext = requiredContext.Value;
             await AddUpdateExtensionLinkAsync(tenantId, link);
         }
         

@@ -20,7 +20,14 @@ namespace Mozu.Api.ToolKit.Converters
         {
             var value = reader.Value.ToString();
             value = value.First().ToString().ToUpper() + String.Join("", value.Skip(1));
-            return Enum.Parse(objectType, value);
+            try
+            {
+                return Enum.Parse(objectType, value);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public override bool CanConvert(Type objectType)
