@@ -13,7 +13,7 @@ namespace Mozu.Api.ToolKit.Models
         public string AppId { get; set; }
         public string WindowTitle { get; set; }
         [JsonConverter(typeof(EnumLowerCaseConverter))]
-        public Context RequiredContext { get; set; }
+        public Context? RequiredContext { get; set; }
         public string Code { get; set; }
     }
 }
