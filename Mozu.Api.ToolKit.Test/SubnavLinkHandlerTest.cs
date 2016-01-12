@@ -58,8 +58,7 @@ namespace Mozu.Api.ToolKit.Test
                 ParentId = Parent.Customers,
                 Href = String.Format("{0}/contacts", _appUrl),
                 Path = new[] { "MyApp", "Contacts" },
-                WindowTitle = "My Extension App Contacts",
-                RequiredContext = Context.Customer
+                WindowTitle = "My Extension App Contacts"
             };
             _subnavLinkHandler.AddUpdateExtensionLinkAsync(TenantId, subNavlink).Wait();
         }

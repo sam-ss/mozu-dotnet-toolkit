@@ -82,6 +82,7 @@
     <Compile Include="Logging\Log4NetServiceFactory.cs" />
     <Compile Include="Models\ErrorInfo.cs" />
     <Compile Include="Models\SubnavLink.cs" />
+    <Compile Include="Models\TenantAdminSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Readers\AttributeReader.cs" />
     <Compile Include="Readers\BaseReader.cs" />
