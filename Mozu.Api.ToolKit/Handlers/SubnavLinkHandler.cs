@@ -15,20 +15,71 @@ using Newtonsoft.Json.Serialization;
 namespace Mozu.Api.ToolKit.Handlers
 {
 
-    public enum Parent
+    public enum Parent //for burger menu
     {
         Orders,
         Catalog,
+        Products,
+        Fulfillment,
         Customers,
         Marketing,
         Sitebuilder, 
         Settings, 
         Locations, 
         Publishing, 
-        Reports
+        Reports,
+        Reporting,
+        SiteBuilder,
+        Schema,
+        Customization,
+        Structure,
+        Permissions,
+        Analytics,
+        Capability,
+        CustomRoutes,
+        StoreCredits,
+        CustomerAttributes,
+        Categories,
+        Inventory,
+        Discounts,
+        CouponSets,
+        ProductRankings,
+        Provisioning,
+        Themes,
+        Shipping,
+        Localization,
+        CustomSchema,
+        GeneralSettings,
+        OrderAttributes,
+        Roles,
+        ProductTypes,
+        Attributes,
+        FileManager,
+        Channels,
+        LocationTypes,
+        Website,
+        LocationInventory,
+        Redirects,
+        ActionManagement,
+        IpBlocking
+
     }
 
-    public enum Context
+
+    public enum LinkType
+    {
+        Menu,
+        Grid,
+        Edit
+    }
+
+    public enum DisplayMode
+    {
+        Navigate,
+        Modal
+    }
+
+    /*public enum Context
     {
         Orders,
         Customer,
@@ -36,12 +87,13 @@ namespace Mozu.Api.ToolKit.Handlers
         Location,
         Products
     }
+    */
 
     public interface ISubnavLinkHandler
     {
 
-        Task AddUpdateExtensionLinkAsync(int tenantId, Parent parent, string href, string windowTitle, String[] path, Context? requiredContext = null);
-        Task AddUpdateExtensionLinkAsync(int tenantId, SubnavLink subnavLink);
+        Task AddUpdateExtensionLinkAsync(int tenantId, Parent parent, string href, string windowTitle, String[] path, /*Context? requiredContext = null,*/ LinkType? type = null, DisplayMode? displayMode=null);
+        Task AddUpdateExtensionLinkAsync(int tenantId, SubnavLink subnavLink,LinkType? type=null);
         Task Delete(int tenantId, SubnavLink subnavLink=null);
 
     }
@@ -49,9 +101,15 @@ namespace Mozu.Api.ToolKit.Handlers
     public class SubnavLinkHandler : ISubnavLinkHandler
     {
         private const string SubnavLinkEntityName = "subnavlinks@mozu";
+        private readonly List<String> _validBurgerMenus = new List<string> {
+           "Catalog","Fulfillment","Customers","Marketing","Sitebuilder","Settings","Publishing","Reporting","SiteBuilder","Schema","Customization","Structure","Permissions"}; 
 
+        private readonly List<String> _validGridEditItems = new List<string>
+        {
+            "Orders","Products", "Locations", "Reports","Analytics","Capability","CustomRoutes","StoreCredits","CustomerAttributes","Categories","Inventory","Discounts","CouponSets","ProductRankings","Provisioning","Themes","Shipping","Localization","CustomSchema","GeneralSettings","OrderAttributes","Roles","ProductTypes","Attributes","FileManager","Channels","LocationTypes","Website","LocationInventory","Redirects","ActionManagement","IpBlocking"
+        }; 
 
-        public async Task AddUpdateExtensionLinkAsync(int tenantId, Parent parent, string href, string windowTitle, String[] path, Context? requiredContext =null)
+        public async Task AddUpdateExtensionLinkAsync(int tenantId, Parent parent, string href, string windowTitle, String[] path, /*Context? requiredContext =null,*/ LinkType? type = null, DisplayMode? displayMode = null)
         {
 
             var link = new SubnavLink
@@ -60,18 +118,49 @@ namespace Mozu.Api.ToolKit.Handlers
                 WindowTitle = windowTitle,
                 Href = href,
                 Path = path
-                
             };
+            if (displayMode.HasValue)
+                link.DisplayMode = displayMode.Value;
+            
+           
 
-            if (requiredContext.HasValue)
-                link.RequiredContext = requiredContext.Value;
-            await AddUpdateExtensionLinkAsync(tenantId, link);
+            /*if (requiredContext.HasValue)
+                link.RequiredContext = requiredContext.Value;*/
+            await AddUpdateExtensionLinkAsync(tenantId, link, type);
         }
         
-        public async Task AddUpdateExtensionLinkAsync(int tenantId, SubnavLink subnavLink)
+        public async Task AddUpdateExtensionLinkAsync(int tenantId, SubnavLink subnavLink, LinkType? type = null)
         {
             var apiContext = new ApiContext(tenantId);
             subnavLink.AppId = await GetAppId(apiContext);
+            if (type.HasValue)
+            {
+                subnavLink.Location = string.Format("{0}{1}", subnavLink.ParentId.ToString().ToLower(), type.ToString().ToLower());
+                if (!subnavLink.DisplayMode.HasValue)
+                    subnavLink.DisplayMode = DisplayMode.Modal;
+            }
+
+
+            var entityResource = new EntityResource(apiContext);
+            var tenantSettingsJobj = await entityResource.GetEntityAsync("tenantadminsettings@mozu", "global");
+            var tenantSettings = tenantSettingsJobj.ToObject<TenantAdminSettings>();
+
+            if (tenantSettings.EnableBetaAdmin)
+            {
+
+                //validate combo
+                if (type.HasValue && type.Value == LinkType.Menu && !_validBurgerMenus.Contains(subnavLink.ParentId.ToString()))
+                    throw new Exception("Invalid Parent option for Menu type. Valid options are "+_validBurgerMenus.Aggregate((x,y)=>x+","+y));
+                if (type.HasValue && (type.Value == LinkType.Edit || type.Value ==LinkType.Grid) && !_validGridEditItems.Contains(subnavLink.ParentId.ToString()))
+                    throw new Exception("Invalid Parent option for "+type.ToString()+" type. Valid options are " + _validGridEditItems.Aggregate((x, y) => x + "," + y));
+
+                subnavLink.ParentId = null;
+                subnavLink.WindowTitle = null;
+
+                
+
+            }
+
             await AddUpdateSubNavLink(apiContext, subnavLink);
         }
 
@@ -98,7 +187,7 @@ namespace Mozu.Api.ToolKit.Handlers
                 if (subNavlink.ParentId == null || subNavlink.Path == null || !subNavlink.Path.Any())
                     throw new Exception("ParentId and Path is required to delete a link");
                 var existing = collection.Items.SingleOrDefault(x => subNavlink.Path.SequenceEqual(x.Item.ToObject<SubnavLink>().Path)
-                    && subNavlink.ParentId == x.Item.ToObject<SubnavLink>().ParentId);
+                    && (subNavlink.ParentId == x.Item.ToObject<SubnavLink>().ParentId || subNavlink.Location == x.Item.ToObject<SubnavLink>().Location ));
                 
                 if (existing != null)
                     await entityResource.DeleteEntityAsync(SubnavLinkEntityName, existing.Id);
