@@ -186,7 +186,7 @@ namespace Mozu.Api.ToolKit.Handlers
             {
                 if (subNavlink.ParentId == null || subNavlink.Path == null || !subNavlink.Path.Any())
                     throw new Exception("ParentId and Path is required to delete a link");
-                var existing = collection.Items.SingleOrDefault(x => subNavlink.Path.SequenceEqual(x.Item.ToObject<SubnavLink>().Path)
+                var existing = collection.Items.FirstOrDefault(x => subNavlink.Path.SequenceEqual(x.Item.ToObject<SubnavLink>().Path)
                     && (subNavlink.ParentId == x.Item.ToObject<SubnavLink>().ParentId || subNavlink.Location == x.Item.ToObject<SubnavLink>().Location ));
                 
                 if (existing != null)
@@ -200,7 +200,7 @@ namespace Mozu.Api.ToolKit.Handlers
             var entityContainerResource = new EntityContainerResource(apiContext);
             var collection = await entityContainerResource.GetEntityContainersAsync(SubnavLinkEntityName, 200);
 
-            var existing = collection.Items.SingleOrDefault(x => subnavLink.Path.SequenceEqual(x.Item.ToObject<SubnavLink>().Path)
+            var existing = collection.Items.FirstOrDefault(x => subnavLink.Path.SequenceEqual(x.Item.ToObject<SubnavLink>().Path)
                 && subnavLink.ParentId == x.Item.ToObject<SubnavLink>().ParentId);
             return existing;
         } 
