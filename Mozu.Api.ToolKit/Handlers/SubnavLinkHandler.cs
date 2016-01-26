@@ -201,7 +201,7 @@ namespace Mozu.Api.ToolKit.Handlers
             var collection = await entityContainerResource.GetEntityContainersAsync(SubnavLinkEntityName, 200);
 
             var existing = collection.Items.FirstOrDefault(x => subnavLink.Path.SequenceEqual(x.Item.ToObject<SubnavLink>().Path)
-                && subnavLink.ParentId == x.Item.ToObject<SubnavLink>().ParentId);
+                && (subnavLink.ParentId == x.Item.ToObject<SubnavLink>().ParentId || subnavLink.Location == x.Item.ToObject<SubnavLink>().Location));
             return existing;
         } 
 
