@@ -21,7 +21,7 @@ namespace Mozu.Api.ToolKit.Handlers
         Catalog,
         Products,
         Fulfillment,
-        Customers,
+        Customer,
         Marketing,
         Sitebuilder, 
         Settings, 
@@ -102,7 +102,7 @@ namespace Mozu.Api.ToolKit.Handlers
     {
         private const string SubnavLinkEntityName = "subnavlinks@mozu";
         private readonly List<String> _validBurgerMenus = new List<string> {
-           "Catalog","Fulfillment","Customers","Marketing","Sitebuilder","Settings","Publishing","Reporting","SiteBuilder","Schema","Customization","Structure","Permissions"}; 
+           "Catalog","Fulfillment","Customer","Marketing","Sitebuilder","Settings","Publishing","Reporting","SiteBuilder","Schema","Customization","Structure","Permissions"}; 
 
         private readonly List<String> _validGridEditItems = new List<string>
         {
@@ -200,10 +200,18 @@ namespace Mozu.Api.ToolKit.Handlers
             var entityContainerResource = new EntityContainerResource(apiContext);
             var collection = await entityContainerResource.GetEntityContainersAsync(SubnavLinkEntityName, 200);
 
-            var existing = collection.Items.FirstOrDefault(x => subnavLink.Path.SequenceEqual(x.Item.ToObject<SubnavLink>().Path)
-                && (subnavLink.ParentId == x.Item.ToObject<SubnavLink>().ParentId || subnavLink.Location == x.Item.ToObject<SubnavLink>().Location));
+            var existing = collection.Items.FirstOrDefault(x => FindMatch(x, subnavLink));
             return existing;
-        } 
+        }
+
+        private bool FindMatch(EntityContainer entity, SubnavLink newLink)
+        {
+            var existingSubnav = entity.Item.ToObject<SubnavLink>();
+            return newLink.Path.SequenceEqual(existingSubnav.Path)
+                && (newLink.ParentId == existingSubnav.ParentId && existingSubnav.ParentId.HasValue) 
+                || (newLink.Location == existingSubnav.Location && !string.IsNullOrEmpty(existingSubnav.Location));
+
+        }
 
         private async Task<SubnavLink> AddUpdateSubNavLink(IApiContext apiContext, SubnavLink subnavLink)
         {
