@@ -55,7 +55,7 @@ namespace Mozu.Api.ToolKit.Test
         {
             var subNavlink = new SubnavLink
             {
-                ParentId = Parent.Customer,
+                ParentId = Parent.Customers,
                 Href = String.Format("{0}/contacts", _appUrl),
                 Path = new[] { "MyApp", "Contacts" },
                 WindowTitle = "My Extension App Contacts"
@@ -75,7 +75,7 @@ namespace Mozu.Api.ToolKit.Test
         {
             var subNavlink = new SubnavLink
             {
-                ParentId = Parent.Customer,
+                ParentId = Parent.Customers,
                 Href = String.Format("{0}/contacts", _appUrl),
                 Path = new[] { "MyApp", "Contacts" },
                 WindowTitle = "My Extension App Contacts"
