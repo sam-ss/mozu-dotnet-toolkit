@@ -102,7 +102,7 @@ namespace Mozu.Api.ToolKit.Handlers
     {
         private const string SubnavLinkEntityName = "subnavlinks@mozu";
         private readonly List<String> _validBurgerMenus = new List<string> {
-           "Catalog","Fulfillment","Customer","Marketing","Sitebuilder","Settings","Publishing","Reporting","SiteBuilder","Schema","Customization","Structure","Permissions"}; 
+           "Catalog","Fulfillment","Customer","Marketing","Order","Sitebuilder","Settings","Publishing","Reporting","SiteBuilder","Schema","Customization","Structure","Permissions"}; 
 
         private readonly List<String> _validGridEditItems = new List<string>
         {
@@ -112,6 +112,7 @@ namespace Mozu.Api.ToolKit.Handlers
         private readonly Dictionary<string, string> _newAdmingMappings = new Dictionary<string, string>
         {
             {"Customers","Customer"},
+            {"Orders","Order" }
         };
         
         
@@ -153,9 +154,9 @@ namespace Mozu.Api.ToolKit.Handlers
 
             var entityResource = new EntityResource(apiContext);
             var tenantSettingsJobj = await entityResource.GetEntityAsync("tenantadminsettings@mozu", "global");
-            var tenantSettings = tenantSettingsJobj.ToObject<TenantAdminSettings>();
+            var tenantSettings = tenantSettingsJobj?.ToObject<TenantAdminSettings>();
 
-            if (tenantSettings.EnableBetaAdmin)
+            if (tenantSettings != null && tenantSettings.EnableBetaAdmin)
             {
 
                 //validate combo
