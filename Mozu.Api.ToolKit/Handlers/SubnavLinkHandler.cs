@@ -154,7 +154,9 @@ namespace Mozu.Api.ToolKit.Handlers
 
             var entityResource = new EntityResource(apiContext);
             var tenantSettingsJobj = await entityResource.GetEntityAsync("tenantadminsettings@mozu", "global");
-            var tenantSettings = tenantSettingsJobj?.ToObject<TenantAdminSettings>();
+            TenantAdminSettings tenantSettings = null;
+            if (tenantSettingsJobj != null)
+              tenantSettings = tenantSettingsJobj.ToObject<TenantAdminSettings>();
 
             if (tenantSettings != null && tenantSettings.EnableBetaAdmin)
             {
