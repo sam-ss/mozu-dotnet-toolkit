@@ -69,7 +69,7 @@ namespace Mozu.Api.ToolKit.Handlers
     public enum LinkType
     {
         Menu,
-        Grid,
+        Index,
         Edit
     }
 
@@ -164,11 +164,10 @@ namespace Mozu.Api.ToolKit.Handlers
                 //validate combo
                 if (type.HasValue && type.Value == LinkType.Menu && !_validBurgerMenus.Contains(location))
                     throw new Exception("Invalid Parent option for Menu type. Valid options are "+_validBurgerMenus.Aggregate((x,y)=>x+","+y));
-                if (type.HasValue && (type.Value == LinkType.Edit || type.Value ==LinkType.Grid) && !_validGridEditItems.Contains(subnavLink.ParentId.ToString()))
+                if (type.HasValue && (type.Value == LinkType.Edit || type.Value ==LinkType.Index) && !_validGridEditItems.Contains(subnavLink.ParentId.ToString()))
                     throw new Exception("Invalid Parent option for "+type.ToString()+" type. Valid options are " + _validGridEditItems.Aggregate((x, y) => x + "," + y));
 
                 subnavLink.ParentId = null;
-                subnavLink.WindowTitle = null;
             }
 
             await AddUpdateSubNavLink(apiContext, subnavLink);
