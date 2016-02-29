@@ -20,14 +20,11 @@ namespace Mozu.Api.ToolKit.Converters
         {
             var value = reader.Value.ToString();
             value = value.First().ToString().ToUpper() + String.Join("", value.Skip(1));
-            try
+            if (objectType.GetGenericTypeDefinition() == typeof(Nullable<>))
             {
-                return Enum.Parse(objectType, value);
+                objectType = objectType.GetGenericArguments().First();
             }
-            catch (Exception)
-            {
-                return null;
-            }
+            return Enum.Parse(objectType, value);
         }
 
         public override bool CanConvert(Type objectType)

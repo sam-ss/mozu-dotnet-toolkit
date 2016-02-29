@@ -82,5 +82,20 @@ namespace Mozu.Api.ToolKit.Test
             };
             _subnavLinkHandler.Delete(TenantId, subNavlink).Wait();
         }
+
+        [TestMethod]
+        public void SubnavlistTest_newAdminUI()
+        {
+            var marketingSubNav = new SubnavLink
+            {
+                ParentId = Parent.Marketing,
+                DisplayMode = DisplayMode.Modal,
+                WindowTitle = "Marketing Import/Export",
+                ModalWindowTitle = "Import/Export",
+                BadgeInitials = "IE",
+                Path = new[] { "Import/Export" }
+            };
+            _subnavLinkHandler.AddUpdateExtensionLinkAsync(TenantId, marketingSubNav, LinkType.Menu).Wait();
+        }
     }
 }
