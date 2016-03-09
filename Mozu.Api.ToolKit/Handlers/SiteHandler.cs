@@ -13,7 +13,7 @@ namespace Mozu.Api.ToolKit.Handlers
 {
     public interface ISiteHandler
     {
-        Task<GeneralSettings> GetGeneralSettings(IApiContext apiContext);
+        Task<GeneralSettings> GetGeneralSettings(IApiContext apiContext, string responseFields = null);
         Task<TimeZone> GetTimezone(IApiContext apiContext, GeneralSettings generalSettings = null);
 
         Task<String> GetSiteDomain(IApiContext apiContext, Site site = null);
@@ -23,19 +23,19 @@ namespace Mozu.Api.ToolKit.Handlers
     public class SiteHandler : ISiteHandler
     {
 
-        public async Task<GeneralSettings> GetGeneralSettings(IApiContext apiContext)
+        public async Task<GeneralSettings> GetGeneralSettings(IApiContext apiContext, string responseFields = null)
         {
             if (apiContext.SiteId.GetValueOrDefault(0) == 0)
                 throw new Exception("Site ID is missing in api context");
 
             var settingResource = new GeneralSettingsResource(apiContext);
-            return await settingResource.GetGeneralSettingsAsync();
+            return await settingResource.GetGeneralSettingsAsync(responseFields);
         }
 
         public async Task<TimeZone> GetTimezone(IApiContext apiContext, GeneralSettings generalSettings = null)
         {
             if (generalSettings == null)
-                generalSettings = await GetGeneralSettings(apiContext);
+                generalSettings = await GetGeneralSettings(apiContext,"siteTimeZone");
 
             var referenceApi = new ReferenceDataResource();
             var timeZones = await referenceApi.GetTimeZonesAsync();
