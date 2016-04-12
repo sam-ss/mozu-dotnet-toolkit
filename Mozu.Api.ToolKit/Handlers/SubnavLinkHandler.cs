@@ -218,8 +218,8 @@ namespace Mozu.Api.ToolKit.Handlers
         {
             var existingSubnav = entity.Item.ToObject<SubnavLink>();
             return newLink.Path.SequenceEqual(existingSubnav.Path)
-                && (newLink.ParentId == existingSubnav.ParentId && existingSubnav.ParentId.HasValue) 
-                || (newLink.Location == existingSubnav.Location && !string.IsNullOrEmpty(existingSubnav.Location));
+                && ((newLink.ParentId == existingSubnav.ParentId && existingSubnav.ParentId.HasValue) 
+                || (newLink.Location == existingSubnav.Location && !string.IsNullOrEmpty(existingSubnav.Location)));
 
         }
 
