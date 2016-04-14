@@ -61,7 +61,8 @@ namespace Mozu.Api.ToolKit.Handlers
         LocationInventory,
         Redirects,
         ActionManagement,
-        IpBlocking
+        IpBlocking,
+        Pricelists
 
     }
 
@@ -106,7 +107,7 @@ namespace Mozu.Api.ToolKit.Handlers
 
         private readonly List<String> _validGridEditItems = new List<string>
         {
-            "Orders","Products", "Locations", "Reports","Analytics","Capability","CustomRoutes","StoreCredits","CustomerAttributes","Categories","Inventory","Discounts","CouponSets","ProductRankings","Provisioning","Themes","Shipping","Localization","CustomSchema","GeneralSettings","OrderAttributes","Roles","ProductTypes","Attributes","FileManager","Channels","LocationTypes","Website","LocationInventory","Redirects","ActionManagement","IpBlocking"
+            "Orders","Products", "Locations", "Reports","Analytics","Capability","CustomRoutes","StoreCredits","CustomerAttributes","Categories","Inventory","Discounts","CouponSets","ProductRankings","Provisioning","Themes","Shipping","Localization","CustomSchema","GeneralSettings","OrderAttributes","Roles","ProductTypes","Attributes","FileManager","Channels","LocationTypes","Website","LocationInventory","Redirects","ActionManagement","IpBlocking","Pricelists"
         };
 
         private readonly Dictionary<string, string> _newAdmingMappings = new Dictionary<string, string>
