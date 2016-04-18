@@ -103,7 +103,7 @@ namespace Mozu.Api.ToolKit.Handlers
     {
         private const string SubnavLinkEntityName = "subnavlinks@mozu";
         private readonly List<String> _validBurgerMenus = new List<string> {
-           "Catalog","Fulfillment","Customer","Marketing","Order","Sitebuilder","Settings","Publishing","Reporting","SiteBuilder","Schema","Customization","Structure","Permissions"}; 
+           "Catalog","Fulfillment","Customer","Marketing","Order","Products","Sitebuilder","Settings","Publishing","Reporting","SiteBuilder","Schema","Customization","Structure","Permissions"}; 
 
         private readonly List<String> _validGridEditItems = new List<string>
         {
