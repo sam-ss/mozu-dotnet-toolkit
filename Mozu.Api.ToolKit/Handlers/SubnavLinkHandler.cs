@@ -107,7 +107,7 @@ namespace Mozu.Api.ToolKit.Handlers
 
         private readonly List<String> _validGridEditItems = new List<string>
         {
-            "Order","Products","Customer","Marketing", "Locations", "Reports","Analytics","Capability","CustomRoutes","StoreCredits","CustomerAttributes","Categories","Inventory","Discounts","CouponSets","ProductRankings","Provisioning","Themes","Shipping","Localization","CustomSchema","GeneralSettings","OrderAttributes","Roles","ProductTypes","Attributes","FileManager","Channels","LocationTypes","Website","LocationInventory","Redirects","ActionManagement","IpBlocking","Pricelists"
+            "Orders","Products","Customers","Marketing", "Locations", "Reports","Analytics","Capability","CustomRoutes","StoreCredits","CustomerAttributes","Categories","Inventory","Discounts","CouponSets","ProductRankings","Provisioning","Themes","Shipping","Localization","CustomSchema","GeneralSettings","OrderAttributes","Roles","ProductTypes","Attributes","FileManager","Channels","LocationTypes","Website","LocationInventory","Redirects","ActionManagement","IpBlocking","Pricelists"
         };
 
         private readonly Dictionary<string, string> _newAdmingMappings = new Dictionary<string, string>
@@ -145,7 +145,7 @@ namespace Mozu.Api.ToolKit.Handlers
             var location = subnavLink.ParentId.ToString();
             if (type.HasValue)
             { 
-                if(_newAdmingMappings.ContainsKey(location))
+                if(_newAdmingMappings.ContainsKey(location) && type == LinkType.Menu)
                      location = _newAdmingMappings[location];
                 subnavLink.Location = string.Format("{0}{1}", location.ToLower(), type.ToString().ToLower());
                 if (!subnavLink.DisplayMode.HasValue)
