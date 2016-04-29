@@ -18,6 +18,7 @@ namespace Mozu.Api.ToolKit.Converters
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
+            if (reader.Value == null) return null;
             var value = reader.Value.ToString();
             value = value.First().ToString().ToUpper() + String.Join("", value.Skip(1));
             if (objectType.GetGenericTypeDefinition() == typeof(Nullable<>))
