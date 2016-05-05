@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using System.Reflection;
 using Autofac;
 using Mozu.Api.Contracts.AppDev;
@@ -52,7 +53,12 @@ namespace Mozu.Api.ToolKit
                 _containerBuilder.RegisterType<AppSetting>().As<IAppSetting>().SingleInstance();
             }
             _containerBuilder.RegisterType<Log4NetServiceFactory>().As<ILoggingServiceFactory>().SingleInstance();
-            _containerBuilder.RegisterType<Events.EventService>().As<IEventService>();
+            if (ConfigurationManager.AppSettings.AllKeys.Contains("UseGenericEventService") &&
+                bool.Parse(ConfigurationManager.AppSettings["UseGenericEventService"]))
+                _containerBuilder.RegisterType<Events.GenericEventService>().As<IEventService>();
+            else
+                _containerBuilder.RegisterType<Events.EventService>().As<IEventService>();
+
             _containerBuilder.RegisterType<Events.EventServiceFactory>().As<IEventServiceFactory>();
 
             _containerBuilder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
