@@ -37,8 +37,8 @@
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="Mozu.Api, Version=1.21.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mozu.Api.SDK.1.21.0\lib\net45\Mozu.Api.dll</HintPath>
+    <Reference Include="Mozu.Api, Version=1.23.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mozu.Api.SDK.1.23.1-dev1605151350\lib\net45\Mozu.Api.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -94,6 +94,8 @@
     <Compile Include="Readers\CouponSetReader.cs" />
     <Compile Include="Readers\CustomerAccountReader.cs" />
     <Compile Include="Readers\CustomerAccountSegmentReader.cs" />
+    <Compile Include="Readers\CustomerPurchaseOrderAccountReader.cs" />
+    <Compile Include="Readers\CustomerPurchaseOrderAccountTransactionReader.cs" />
     <Compile Include="Readers\DiscountReader.cs" />
     <Compile Include="Readers\DocumentReader.cs" />
     <Compile Include="Readers\EntityReader.cs" />
