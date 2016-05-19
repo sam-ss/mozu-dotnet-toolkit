@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Mozu.Api.Contracts.Customer;
+using Mozu.Api.Resources.Commerce.Customer;
 using Mozu.Api.Resources.Commerce.Customer.Accounts;
 
 namespace Mozu.Api.ToolKit.Readers
@@ -11,7 +12,7 @@ namespace Mozu.Api.ToolKit.Readers
         public int AccountId { get; set; }
         protected async override Task<bool> GetDataAsync()
         {
-            var resource = new CustomerPurchaseOrderAccountResource(Context);
+            var resource = new CustomerAccountResource(Context);
             _results = await resource.GetCustomerPurchaseOrderTransactionsAsync(AccountId, startIndex: StartIndex, pageSize: PageSize, sortBy: SortBy,responseFields: ResponseFields);
 
             TotalCount = _results.TotalCount;
