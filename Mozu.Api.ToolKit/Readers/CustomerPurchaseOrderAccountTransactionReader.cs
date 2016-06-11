@@ -12,7 +12,7 @@ namespace Mozu.Api.ToolKit.Readers
         public int AccountId { get; set; }
         protected async override Task<bool> GetDataAsync()
         {
-            var resource = new CustomerAccountResource(Context);
+            var resource = new CustomerPurchaseOrderAccountResource(Context);
             _results = await resource.GetCustomerPurchaseOrderTransactionsAsync(AccountId, startIndex: StartIndex, pageSize: PageSize, sortBy: SortBy,responseFields: ResponseFields);
 
             TotalCount = _results.TotalCount;
