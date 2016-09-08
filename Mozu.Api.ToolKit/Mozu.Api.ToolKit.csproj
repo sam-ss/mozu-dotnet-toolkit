@@ -112,6 +112,7 @@
     <Compile Include="Readers\ProductTypeReader.cs" />
     <Compile Include="Readers\ProductVariationReader.cs" />
     <Compile Include="Readers\CustomerSegmentReader.cs" />
+    <Compile Include="Readers\SearchReader.cs" />
     <Compile Include="Readers\WishlistReader.cs" />
   </ItemGroup>
   <ItemGroup>
