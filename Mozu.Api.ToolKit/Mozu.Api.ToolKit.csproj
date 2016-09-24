@@ -92,6 +92,8 @@
     <Compile Include="Readers\CategoryReader.cs" />
     <Compile Include="Readers\CouponReader.cs" />
     <Compile Include="Readers\CouponSetReader.cs" />
+    <Compile Include="Readers\CreditAuditEntryReader.cs" />
+    <Compile Include="Readers\CreditTransactionReader.cs" />
     <Compile Include="Readers\CustomerAccountReader.cs" />
     <Compile Include="Readers\CustomerAccountSegmentReader.cs" />
     <Compile Include="Readers\CustomerPurchaseOrderAccountReader.cs" />
@@ -113,6 +115,7 @@
     <Compile Include="Readers\ProductVariationReader.cs" />
     <Compile Include="Readers\CustomerSegmentReader.cs" />
     <Compile Include="Readers\SearchReader.cs" />
+    <Compile Include="Readers\CreditReader.cs" />
     <Compile Include="Readers\WishlistReader.cs" />
   </ItemGroup>
   <ItemGroup>
