@@ -110,6 +110,7 @@
     <Compile Include="Readers\PriceListEntryReader.cs" />
     <Compile Include="Readers\PriceListReader.cs" />
     <Compile Include="Readers\ProductAdminReader.cs" />
+    <Compile Include="Readers\ProductReservationsReader.cs" />
     <Compile Include="Readers\ProductRuntimeReader.cs" />
     <Compile Include="Readers\ProductTypeReader.cs" />
     <Compile Include="Readers\ProductVariationReader.cs" />
