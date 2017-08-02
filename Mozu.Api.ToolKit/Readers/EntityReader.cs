@@ -29,7 +29,9 @@ namespace Mozu.Api.ToolKit.Readers
             if (!ListName.Contains("@"))
                 fqn = ListName + "@" + Namespace;
 
-            var entities = await entityResource.GetEntitiesAsync(fqn, PageSize, StartIndex, Filter, SortBy, ResponseFields);
+            var entities = await entityResource
+                .GetEntitiesAsync(fqn, PageSize, StartIndex, Filter, SortBy, ResponseFields, ct: CancellationToken)
+                .ConfigureAwait(false);
 
             _results = new EntityCollection<T>
             {

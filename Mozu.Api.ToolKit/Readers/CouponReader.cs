@@ -24,7 +24,9 @@ namespace Mozu.Api.ToolKit.Readers
             if (string.IsNullOrEmpty(CouponSetCode))
                 throw new Exception("CouponSetCode is requried to get Coupons");
 
-            _results = await couponResource.GetCouponsAsync(CouponSetCode,startIndex: StartIndex, pageSize: PageSize, sortBy: SortBy, filter: Filter, responseFields: ResponseFields, includeCounts:IncludeCounts);
+            _results = await couponResource.GetCouponsAsync(CouponSetCode, startIndex: StartIndex, pageSize: PageSize,
+                sortBy: SortBy, filter: Filter, responseFields: ResponseFields, includeCounts: IncludeCounts,
+                ct: CancellationToken).ConfigureAwait(false);
 
             TotalCount = _results.TotalCount;
             PageCount = _results.PageCount;

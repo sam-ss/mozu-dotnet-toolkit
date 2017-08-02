@@ -16,7 +16,9 @@ namespace Mozu.Api.ToolKit.Readers
         protected async override Task<bool> GetDataAsync()
         {
             var resource = new ProductVariationResource(Context, DataViewMode);
-            _results = await resource.GetProductVariationsAsync(ProductCode, startIndex: StartIndex, pageSize: PageSize, sortBy: SortBy, filter: Filter);
+            _results = await resource
+                .GetProductVariationsAsync(ProductCode, startIndex: StartIndex, pageSize: PageSize, sortBy: SortBy,
+                    filter: Filter, ct: CancellationToken).ConfigureAwait(false);
 
             TotalCount = _results.TotalCount;
             PageCount = _results.PageCount;

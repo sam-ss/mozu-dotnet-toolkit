@@ -12,7 +12,9 @@ namespace Mozu.Api.ToolKit.Readers
         protected override async Task<bool> GetDataAsync()
         {
             var resource = new WishlistResource(Context);
-            _results = await resource.GetWishlistsAsync(startIndex: StartIndex, pageSize: PageSize, sortBy: SortBy, filter: Filter, q: Q, qLimit: QLimit, responseFields:ResponseFields);
+            _results = await resource.GetWishlistsAsync(startIndex: StartIndex, pageSize: PageSize, sortBy: SortBy,
+                    filter: Filter, q: Q, qLimit: QLimit, responseFields: ResponseFields, ct: CancellationToken)
+                .ConfigureAwait(false);
 
             TotalCount = _results.TotalCount;
             PageCount = _results.PageCount;

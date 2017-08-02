@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Mozu.Api.Contracts.MZDB;
 using Mozu.Api.Resources.Commerce.Settings;
@@ -92,9 +93,9 @@ namespace Mozu.Api.ToolKit.Handlers
     public interface ISubnavLinkHandler
     {
 
-        Task AddUpdateExtensionLinkAsync(int tenantId, Parent parent, string href, string windowTitle, String[] path, /*Context? requiredContext = null,*/ LinkType? type = null, DisplayMode? displayMode=null);
-        Task AddUpdateExtensionLinkAsync(int tenantId, SubnavLink subnavLink,LinkType? type=null);
-        Task Delete(int tenantId, SubnavLink subnavLink=null);
+        Task AddUpdateExtensionLinkAsync(int tenantId, Parent parent, string href, string windowTitle, String[] path, /*Context? requiredContext = null,*/ LinkType? type = null, DisplayMode? displayMode=null, CancellationToken ct = default(CancellationToken));
+        Task AddUpdateExtensionLinkAsync(int tenantId, SubnavLink subnavLink,LinkType? type=null, CancellationToken ct = default(CancellationToken));
+        Task Delete(int tenantId, SubnavLink subnavLink=null, CancellationToken ct = default(CancellationToken));
 
     }
 
@@ -117,7 +118,7 @@ namespace Mozu.Api.ToolKit.Handlers
         
         
 
-        public async Task AddUpdateExtensionLinkAsync(int tenantId, Parent parent, string href, string windowTitle, String[] path, /*Context? requiredContext =null,*/ LinkType? type = null, DisplayMode? displayMode = null)
+        public async Task AddUpdateExtensionLinkAsync(int tenantId, Parent parent, string href, string windowTitle, String[] path, /*Context? requiredContext =null,*/ LinkType? type = null, DisplayMode? displayMode = null, CancellationToken ct = default(CancellationToken))
         {
 
             var link = new SubnavLink
@@ -134,10 +135,10 @@ namespace Mozu.Api.ToolKit.Handlers
 
             /*if (requiredContext.HasValue)
                 link.RequiredContext = requiredContext.Value;*/
-            await AddUpdateExtensionLinkAsync(tenantId, link, type);
+            await AddUpdateExtensionLinkAsync(tenantId, link, type, ct);
         }
         
-        public async Task AddUpdateExtensionLinkAsync(int tenantId, SubnavLink subnavLink, LinkType? type = null)
+        public async Task AddUpdateExtensionLinkAsync(int tenantId, SubnavLink subnavLink, LinkType? type = null, CancellationToken ct = default(CancellationToken))
         {
             var apiContext = new ApiContext(tenantId);
             subnavLink.AppId = await GetAppId(apiContext);
@@ -146,14 +147,14 @@ namespace Mozu.Api.ToolKit.Handlers
             { 
                 if(_newAdmingMappings.ContainsKey(location))
                      location = _newAdmingMappings[location];
-                subnavLink.Location = string.Format("{0}{1}", location.ToLower(), type.ToString().ToLower());
+                subnavLink.Location = $"{location.ToLower()}{type.ToString().ToLower()}";
                 if (!subnavLink.DisplayMode.HasValue)
                     subnavLink.DisplayMode = DisplayMode.Modal;
             }
 
 
             var entityResource = new EntityResource(apiContext);
-            var tenantSettingsJobj = await entityResource.GetEntityAsync("tenantadminsettings@mozu", "global");
+            var tenantSettingsJobj = await entityResource.GetEntityAsync("tenantadminsettings@mozu", "global", ct:ct).ConfigureAwait(false);
             TenantAdminSettings tenantSettings = null;
             if (tenantSettingsJobj != null)
               tenantSettings = tenantSettingsJobj.ToObject<TenantAdminSettings>();
@@ -170,14 +171,14 @@ namespace Mozu.Api.ToolKit.Handlers
                 subnavLink.ParentId = null;
             }
 
-            await AddUpdateSubNavLink(apiContext, subnavLink);
+            await AddUpdateSubNavLink(apiContext, subnavLink, ct: ct);
         }
 
-        public async Task Delete(int tenantId, SubnavLink subNavlink = null)
+        public async Task Delete(int tenantId, SubnavLink subNavlink = null, CancellationToken ct = default(CancellationToken))
         {
             var apiContext = new ApiContext(tenantId);
             var entityContainerResource = new EntityContainerResource(apiContext);
-            var collection = await entityContainerResource.GetEntityContainersAsync(SubnavLinkEntityName, 200);
+            var collection = await entityContainerResource.GetEntityContainersAsync(SubnavLinkEntityName, 200, ct:ct).ConfigureAwait(false);
             var entityResource = new EntityResource(apiContext);
 
             if (subNavlink == null)
@@ -222,7 +223,7 @@ namespace Mozu.Api.ToolKit.Handlers
 
         }
 
-        private async Task<SubnavLink> AddUpdateSubNavLink(IApiContext apiContext, SubnavLink subnavLink)
+        private async Task<SubnavLink> AddUpdateSubNavLink(IApiContext apiContext, SubnavLink subnavLink, CancellationToken ct = default(CancellationToken))
         {
             var entityResource = new EntityResource(apiContext);
             JObject jObject = null;
@@ -233,18 +234,18 @@ namespace Mozu.Api.ToolKit.Handlers
             jObject = FromObject(subnavLink);
 
             if (existing == null)
-                jObject = await entityResource.InsertEntityAsync(jObject, SubnavLinkEntityName);
+                jObject = await entityResource.InsertEntityAsync(jObject, SubnavLinkEntityName, ct:ct).ConfigureAwait(false);
             else
-                jObject = await entityResource.UpdateEntityAsync(jObject, SubnavLinkEntityName, existing.Id);
+                jObject = await entityResource.UpdateEntityAsync(jObject, SubnavLinkEntityName, existing.Id, ct: ct).ConfigureAwait(false);
 
             return jObject.ToObject<SubnavLink>();
         }
 
-        private async Task<string> GetAppId(IApiContext apiContext)
+        private async Task<string> GetAppId(IApiContext apiContext, CancellationToken ct = default(CancellationToken))
         {
 
             var applicationResource = new ApplicationResource(apiContext);
-            var app = await applicationResource.ThirdPartyGetApplicationAsync();
+            var app = await applicationResource.ThirdPartyGetApplicationAsync(ct:ct).ConfigureAwait(false);
             return app.AppId;
         }
 

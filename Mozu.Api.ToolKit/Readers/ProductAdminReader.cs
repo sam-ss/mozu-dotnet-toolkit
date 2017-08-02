@@ -15,7 +15,9 @@ namespace Mozu.Api.ToolKit.Readers
         {
          
             var resource = new ProductResource(Context, DataViewMode.HasValue ? DataViewMode.Value : Api.DataViewMode.Live);
-            _results = await resource.GetProductsAsync(startIndex: StartIndex, pageSize: PageSize, sortBy: SortBy, filter: Filter, q: Q, qLimit: QLimit,responseFields:ResponseFields);
+            _results = await resource.GetProductsAsync(startIndex: StartIndex, pageSize: PageSize, sortBy: SortBy,
+                    filter: Filter, q: Q, qLimit: QLimit, responseFields: ResponseFields, ct: CancellationToken)
+                .ConfigureAwait(false);
 
             TotalCount = _results.TotalCount;
             PageCount = _results.PageCount;

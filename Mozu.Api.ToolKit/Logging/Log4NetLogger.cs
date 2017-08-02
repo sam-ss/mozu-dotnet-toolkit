@@ -21,19 +21,19 @@ namespace Mozu.Api.ToolKit.Logging
         }
 
 
-        public async Task Info(object message, Exception ex = null, object properties = null)
+        public void Info(object message, Exception ex = null, object properties = null)
         {
             var loggingEvent = CreateLoggingEvent(message, ex, Level.Info);
            LogEvent(loggingEvent, properties);
         }
 
-        public async Task Warn(object message, Exception ex = null, object properties = null)
+        public void Warn(object message, Exception ex = null, object properties = null)
         {
             var loggingEvent = CreateLoggingEvent(message,ex, Level.Warn);
             LogEvent(loggingEvent, properties); 
         }
 
-        public async Task Debug(object message, Exception ex = null, object properties = null)
+        public void Debug(object message, Exception ex = null, object properties = null)
         {
             var loggingEvent = CreateLoggingEvent(message, ex, Level.Debug);
             LogEvent(loggingEvent, properties); 
@@ -41,16 +41,15 @@ namespace Mozu.Api.ToolKit.Logging
 
         
 
-        public Task Error(object message, Exception ex = null, object properties = null)
+        public void Error(object message, Exception ex = null, object properties = null)
         {
           //_log.Error(message, ex);
 
             var loggingEvent = CreateLoggingEvent(message, ex, Level.Error);
             LogEvent(loggingEvent, properties);
-          return null;
         }
 
-        public async Task Fatal(object message, Exception ex = null, object properties = null)
+        public void Fatal(object message, Exception ex = null, object properties = null)
         {
             var loggingEvent = CreateLoggingEvent(message, ex, Level.Fatal);
             LogEvent(loggingEvent, properties); 

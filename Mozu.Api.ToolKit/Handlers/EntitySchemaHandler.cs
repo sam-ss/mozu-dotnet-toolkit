@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Mozu.Api.Contracts.MZDB;
 using Mozu.Api.Logging;
@@ -24,11 +25,11 @@ namespace Mozu.Api.ToolKit.Handlers
 
     public interface IEntitySchemaHandler
     {
-        Task<EntityList> InstallSchemaAsync(IApiContext apiContext, EntityList entityList, EntityScope scope, List<IndexedProperty> indexedProperties);
-        Task<EntityList> InstallSchemaAsync(IApiContext apiContext, EntityList entityList, EntityScope scope, IndexedProperty idProperty, List<IndexedProperty> indexedProperties);
+        Task<EntityList> InstallSchemaAsync(IApiContext apiContext, EntityList entityList, EntityScope scope, List<IndexedProperty> indexedProperties, CancellationToken ct = default(CancellationToken));
+        Task<EntityList> InstallSchemaAsync(IApiContext apiContext, EntityList entityList, EntityScope scope, IndexedProperty idProperty, List<IndexedProperty> indexedProperties, CancellationToken ct = default(CancellationToken));
 
-        Task<EntityList> GetEntityListAsync(IApiContext apiContext, String name);
-        Task<EntityList> GetEntityListAsync(IApiContext apiContext, String name, string nameSpace);
+        Task<EntityList> GetEntityListAsync(IApiContext apiContext, String name, CancellationToken ct = default(CancellationToken));
+        Task<EntityList> GetEntityListAsync(IApiContext apiContext, String name, string nameSpace, CancellationToken ct = default(CancellationToken));
         IndexedProperty GetIndexedProperty(String name, EntityDataType entityDataType);
     }
 
@@ -42,23 +43,23 @@ namespace Mozu.Api.ToolKit.Handlers
             _appSetting = appSetting;
         }
 
-        public async Task<EntityList> GetEntityListAsync(IApiContext apiContext, String name)
+        public async Task<EntityList> GetEntityListAsync(IApiContext apiContext, String name, CancellationToken ct = default(CancellationToken))
         {
-            return await GetEntityListAsync(apiContext, name, _appSetting.Namespace);
+            return await GetEntityListAsync(apiContext, name, _appSetting.Namespace,ct);
         }
 
-        public async Task<EntityList> GetEntityListAsync(IApiContext apiContext, String name, string nameSpace)
+        public async Task<EntityList> GetEntityListAsync(IApiContext apiContext, String name, string nameSpace, CancellationToken ct = default(CancellationToken))
         {
             var entityListResource = new EntityListResource(apiContext);
             String listFQN = GetListFQN(name, nameSpace);
             EntityList entityList = null;
             try
             {
-                entityList = await entityListResource.GetEntityListAsync(listFQN);
+                entityList = await entityListResource.GetEntityListAsync(listFQN,ct:ct).ConfigureAwait(false);
             }
             catch (AggregateException ae)
             {
-                if (ae.InnerException.GetType() == typeof (ApiException)) throw;
+                if (ae.InnerException != null && ae.InnerException.GetType() == typeof (ApiException)) throw;
                 var aex = (ApiException)ae.InnerException;
                 _logger.Error(aex.Message, aex);
                 throw aex;
@@ -67,13 +68,13 @@ namespace Mozu.Api.ToolKit.Handlers
         }
 
         public async Task<EntityList> InstallSchemaAsync(IApiContext apiContext, EntityList entityList, EntityScope scope,
-            List<IndexedProperty> indexedProperties)
+            List<IndexedProperty> indexedProperties, CancellationToken ct = default(CancellationToken))
         {
-            return await InstallSchemaAsync(apiContext, entityList, scope, null, indexedProperties);
+            return await InstallSchemaAsync(apiContext, entityList, scope, null, indexedProperties, ct);
         }
 
         public async Task<EntityList> InstallSchemaAsync(IApiContext apiContext, EntityList entityList, EntityScope scope, 
-            IndexedProperty idProperty,List<IndexedProperty> indexedProperties)
+            IndexedProperty idProperty,List<IndexedProperty> indexedProperties, CancellationToken ct = default(CancellationToken))
         {
 
             if (indexedProperties != null && indexedProperties.Count > 4) throw new Exception("Only 4 indexed properties are supported");
@@ -97,17 +98,17 @@ namespace Mozu.Api.ToolKit.Handlers
 
             var entityListResource = new EntityListResource(apiContext);
             var listFQN = GetListFQN(entityList.Name, entityList.NameSpace);
-            var existing = await GetEntityListAsync(apiContext, entityList.Name);
+            var existing = await GetEntityListAsync(apiContext, entityList.Name,ct:ct).ConfigureAwait(false);
 
             try
             {
                 existing = existing != null
-                    ? await entityListResource.UpdateEntityListAsync(entityList, listFQN)
-                    : await entityListResource.CreateEntityListAsync(entityList);
+                    ? await entityListResource.UpdateEntityListAsync(entityList, listFQN,ct:ct).ConfigureAwait(false)
+                    : await entityListResource.CreateEntityListAsync(entityList, ct:ct).ConfigureAwait(false);
             }
             catch (AggregateException ae)
             {
-                if (ae.InnerException.GetType() == typeof(ApiException)) throw;
+                if (ae.InnerException != null && ae.InnerException.GetType() == typeof(ApiException)) throw;
                 var aex = (ApiException)ae.InnerException;
                 _logger.Error(aex.Message, aex);
                 throw aex;

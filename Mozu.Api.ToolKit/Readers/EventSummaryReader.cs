@@ -18,7 +18,10 @@ namespace Mozu.Api.ToolKit.Readers
                 throw new Exception("SubscriptionId is required for Get Event Delivery summary");
 
 
-            _results = await eventDeliverySummaryResource.GetDeliveryAttemptSummariesAsync(SubscriptionId,startIndex: StartIndex, pageSize: PageSize, sortBy: SortBy, filter: Filter, responseFields: ResponseFields);
+            _results = await eventDeliverySummaryResource
+                .GetDeliveryAttemptSummariesAsync(SubscriptionId, startIndex: StartIndex, pageSize: PageSize,
+                    sortBy: SortBy, filter: Filter, responseFields: ResponseFields, ct: CancellationToken)
+                .ConfigureAwait(false);
 
             TotalCount = _results.TotalCount;
             PageCount = _results.PageCount;
