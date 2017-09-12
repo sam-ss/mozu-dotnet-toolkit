@@ -16,7 +16,8 @@ namespace Mozu.Api.ToolKit.Readers
         protected override async Task<bool> GetDataAsync()
         {
             var resource = new CreditAuditEntryResource(Context);
-            _results = await resource.GetAuditEntriesAsync(Code, startIndex: StartIndex, pageSize: PageSize, sortBy: SortBy, filter: Filter, responseFields: ResponseFields);
+            _results = await resource.GetAuditEntriesAsync(Code, startIndex: StartIndex, pageSize: PageSize, sortBy: SortBy, 
+                filter: Filter, responseFields: ResponseFields, ct: CancellationToken).ConfigureAwait(false);
 
             TotalCount = _results.TotalCount;
             PageCount = _results.PageCount;

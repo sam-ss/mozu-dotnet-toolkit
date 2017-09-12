@@ -11,7 +11,8 @@ namespace Mozu.Api.ToolKit.Readers
         protected async override Task<bool> GetDataAsync()
         {
             var resource = new PriceListResource(Context);
-            _results = await resource.GetPriceListsAsync(startIndex: StartIndex, pageSize: PageSize, sortBy: SortBy, filter: Filter, responseFields: ResponseFields);
+            _results = await resource.GetPriceListsAsync(startIndex: StartIndex, pageSize: PageSize, sortBy: SortBy, filter: Filter, 
+                responseFields: ResponseFields, ct: CancellationToken).ConfigureAwait(false);
 
             TotalCount = _results.TotalCount;
             return _results.Items != null && _results.Items.Count > 0;

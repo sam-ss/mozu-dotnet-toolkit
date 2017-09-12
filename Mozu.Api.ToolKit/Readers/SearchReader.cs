@@ -17,7 +17,7 @@ namespace Mozu.Api.ToolKit.Readers
             var searchResource = new SearchResource(Context);
 
             _results = await searchResource.GetSynonymDefinitionsAsync(startIndex: StartIndex, pageSize: PageSize,
-                sortBy: SortBy, filter: Filter, responseFields: ResponseFields);
+                sortBy: SortBy, filter: Filter, responseFields: ResponseFields, ct: CancellationToken).ConfigureAwait(false);
 
             TotalCount = _results.TotalCount;
             PageCount = _results.PageCount;
