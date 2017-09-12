@@ -31,8 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=3.4.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.3.4.0\lib\net40\Autofac.dll</HintPath>
+    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
@@ -76,6 +76,8 @@
     <Compile Include="Events\EventProcessor.cs" />
     <Compile Include="Events\EventService.cs" />
     <Compile Include="Events\EventServiceFactory.cs" />
+    <Compile Include="Events\GenericEventService.cs" />
+    <Compile Include="Events\IGenericEventProcessor.cs" />
     <Compile Include="Handlers\EntityHandler.cs" />
     <Compile Include="Handlers\EntitySchemaHandler.cs" />
     <Compile Include="Handlers\EmailHandler.cs" />
@@ -94,8 +96,12 @@
     <Compile Include="Readers\CategoryReader.cs" />
     <Compile Include="Readers\CouponReader.cs" />
     <Compile Include="Readers\CouponSetReader.cs" />
+    <Compile Include="Readers\CreditAuditEntryReader.cs" />
+    <Compile Include="Readers\CreditTransactionReader.cs" />
     <Compile Include="Readers\CustomerAccountReader.cs" />
     <Compile Include="Readers\CustomerAccountSegmentReader.cs" />
+    <Compile Include="Readers\CustomerPurchaseOrderAccountReader.cs" />
+    <Compile Include="Readers\CustomerPurchaseOrderAccountTransactionReader.cs" />
     <Compile Include="Readers\DiscountReader.cs" />
     <Compile Include="Readers\DocumentReader.cs" />
     <Compile Include="Readers\EntityReader.cs" />
@@ -105,15 +111,22 @@
     <Compile Include="Readers\LocationReader.cs" />
     <Compile Include="Readers\OrderReader.cs" />
     <Compile Include="Readers\OrderReturnReader.cs" />
+    <Compile Include="Readers\PriceListEntryReader.cs" />
+    <Compile Include="Readers\PriceListReader.cs" />
     <Compile Include="Readers\ProductAdminReader.cs" />
+    <Compile Include="Readers\ProductReservationsReader.cs" />
     <Compile Include="Readers\ProductRuntimeReader.cs" />
     <Compile Include="Readers\ProductTypeReader.cs" />
     <Compile Include="Readers\ProductVariationReader.cs" />
     <Compile Include="Readers\CustomerSegmentReader.cs" />
+    <Compile Include="Readers\SearchReader.cs" />
+    <Compile Include="Readers\CreditReader.cs" />
     <Compile Include="Readers\WishlistReader.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="install.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

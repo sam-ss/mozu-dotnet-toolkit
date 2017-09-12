@@ -14,7 +14,7 @@ namespace Mozu.Api.ToolKit.Handlers
 {
     public interface ISiteHandler
     {
-        Task<GeneralSettings> GetGeneralSettings(IApiContext apiContext, CancellationToken ct = default(CancellationToken));
+        Task<GeneralSettings> GetGeneralSettings(IApiContext apiContext, string responseFields = null,CancellationToken ct = default(CancellationToken));
         Task<TimeZone> GetTimezone(IApiContext apiContext, GeneralSettings generalSettings = null, CancellationToken ct = default(CancellationToken));
 
         Task<String> GetSiteDomain(IApiContext apiContext, Site site = null, CancellationToken ct = default(CancellationToken));
@@ -24,19 +24,19 @@ namespace Mozu.Api.ToolKit.Handlers
     public class SiteHandler : ISiteHandler
     {
 
-        public async Task<GeneralSettings> GetGeneralSettings(IApiContext apiContext, CancellationToken ct = default(CancellationToken))
+        public async Task<GeneralSettings> GetGeneralSettings(IApiContext apiContext, string responseFields = null,CancellationToken ct = default(CancellationToken))
         {
             if (apiContext.SiteId.GetValueOrDefault(0) == 0)
                 throw new Exception("Site ID is missing in api context");
 
             var settingResource = new GeneralSettingsResource(apiContext);
-            return await settingResource.GetGeneralSettingsAsync(ct: ct).ConfigureAwait(false);
+            return await settingResource.GetGeneralSettingsAsync(responseFields,ct: ct).ConfigureAwait(false);
         }
 
         public async Task<TimeZone> GetTimezone(IApiContext apiContext, GeneralSettings generalSettings = null, CancellationToken ct = default(CancellationToken))
         {
             if (generalSettings == null)
-                generalSettings = await GetGeneralSettings(apiContext);
+                generalSettings = await GetGeneralSettings(apiContext,"siteTimeZone");
 
             var referenceApi = new ReferenceDataResource();
             var timeZones = await referenceApi.GetTimeZonesAsync(ct:ct).ConfigureAwait(false);

@@ -13,8 +13,8 @@
     <tags>"Mozu"</tags>
 	  <dependencies>
       <dependency id="Mozu.Api.SDK" version="" />
-      <dependency id="Autofac" version="" />
-      <dependency id="log4net" version="" />
+      <dependency id="Autofac" version="3.5.2" />
+      <dependency id="log4net" version="2.0.3" />
     </dependencies>
     <references>
       <reference file="Mozu.Api.ToolKit.dll" />
