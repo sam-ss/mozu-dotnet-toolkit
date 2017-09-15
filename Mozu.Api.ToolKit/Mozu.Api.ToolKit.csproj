@@ -40,7 +40,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Mozu.Api, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mozu.Api.SDK.2.0.0-dev1708021517\lib\net45\Mozu.Api.dll</HintPath>
+      <HintPath>..\packages\Mozu.Api.SDK.2.0.0-RC1\lib\net45\Mozu.Api.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -133,7 +133,9 @@
     <None Include="Mozu.Api.ToolKit.nuspec">
       <SubType>Designer</SubType>
     </None>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="EmailTemplates\ErrorEmailTemplate.txt">
