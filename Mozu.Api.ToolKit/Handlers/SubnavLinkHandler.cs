@@ -149,7 +149,7 @@ namespace Mozu.Api.ToolKit.Handlers
             { 
                 if(_newAdmingMappings.ContainsKey(location) && type == LinkType.Menu)
                      location = _newAdmingMappings[location];
-                subnavLink.Location = $"{location.ToLower()}{type.ToString().ToLower()}";
+                subnavLink.Location = string.Format("{0}{1}", location.ToLower(), type.ToString().ToLower());
                 if (!subnavLink.DisplayMode.HasValue)
                     subnavLink.DisplayMode = DisplayMode.Modal;
             }
