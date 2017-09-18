@@ -12,7 +12,7 @@
     <copyright>Copyright 2014</copyright>
     <tags>"Mozu"</tags>
 	  <dependencies>
-      <dependency id="Mozu.Api.SDK" version="2.0.0" />
+      <dependency id="Mozu.Api.SDK" version="2.0.0-RC1" />
       <dependency id="Autofac" version="3.5.2" />
       <dependency id="log4net" version="2.0.8" />
       <dependency id="Newtonsoft.Json" version="9.0.1" />
