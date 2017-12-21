@@ -183,4 +183,19 @@ namespace Mozu.Api.ToolKit.Events
             await ExecuteAsync(events);
         }
     }
+
+    public class ProductInventoryEventProcessor : EventProcessorBase, IEventProcessor
+    {
+        private readonly ILogger _logger = LogManager.GetLogger(typeof(ProductInventoryEventProcessor));
+        public async Task ProcessAsync(IComponentContext container, IApiContext apiContext, Event eventPayLoad)
+        {
+            EventPayLoad = eventPayLoad;
+            ApiContext = apiContext;
+            Container = container;
+            _logger.Info("Processing ProductInventory event");
+            var events = Container.Resolve<IProductInventoryEvents>();
+            if (events == null) throw new ArgumentNullException("IProductInventoryEvents is not registered");
+            await ExecuteAsync(events);
+        }
+    }
 }

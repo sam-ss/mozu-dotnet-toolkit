@@ -2,6 +2,6 @@
 {
     public enum EventCategory
     {
-        Order, Return, CustomerAccount, Product, Discount, Application, CustomerSegment, Tenant, Email
+        Order, Return, CustomerAccount, Product, Discount, Application, CustomerSegment, Tenant, Email, ProductInventory
     }
 }
