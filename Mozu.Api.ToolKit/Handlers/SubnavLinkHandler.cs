@@ -115,7 +115,8 @@ namespace Mozu.Api.ToolKit.Handlers
         private readonly Dictionary<string, string> _newAdmingMappings = new Dictionary<string, string>
         {
             {"Customers","Customer"},
-            {"Orders","Order" }
+            {"Orders","Order" },
+            {"Reporting","Report" }
         };
         
         
