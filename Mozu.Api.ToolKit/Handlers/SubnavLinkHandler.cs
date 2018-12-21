@@ -64,7 +64,8 @@ namespace Mozu.Api.ToolKit.Handlers
         Redirects,
         ActionManagement,
         IpBlocking,
-        Pricelists
+        Pricelists,
+        B2BAccount
 
     }
 
