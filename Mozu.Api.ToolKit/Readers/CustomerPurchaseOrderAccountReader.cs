@@ -9,12 +9,14 @@ namespace Mozu.Api.ToolKit.Readers
     public class CustomerPurchaseOrderAccountReader : BaseReader
     {
         private CustomerPurchaseOrderAccountCollection _results;
-      
+
+        
+        public string AccountType { get; set; }
         protected async override Task<bool> GetDataAsync()
         {
             var resource = new CustomerAccountResource(Context);
             _results =await resource.GetCustomersPurchaseOrderAccountsAsync(startIndex: StartIndex, pageSize: PageSize, sortBy: SortBy, 
-                responseFields: ResponseFields, ct: CancellationToken).ConfigureAwait(false);
+                responseFields: ResponseFields, ct: CancellationToken, accountType:AccountType).ConfigureAwait(false);
 
             TotalCount = _results.TotalCount;
             PageCount = _results.PageCount;
