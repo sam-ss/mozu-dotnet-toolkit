@@ -40,7 +40,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Mozu.Api, Version=2.1.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mozu.Api.SDK.2.1.3-dev1902192246\lib\net45\Mozu.Api.dll</HintPath>
+      <HintPath>..\packages\Mozu.Api.SDK.2.1.3-dev1902192252\lib\net45\Mozu.Api.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
