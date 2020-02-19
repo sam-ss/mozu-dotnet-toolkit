@@ -13,7 +13,7 @@ namespace Mozu.Api.ToolKit.Readers
         {
             var resource = new OrderResource(Context);
             _results = await resource.GetOrdersAsync(startIndex: StartIndex, pageSize: PageSize, sortBy: SortBy,
-                    filter: Filter, q: Q, qLimit: QLimit, responseFields: ResponseFields, ct: CancellationToken)
+                    filter: Filter, q: Q, qLimit: QLimit, mode: Mode, responseFields: ResponseFields, ct: CancellationToken)
                 .ConfigureAwait(false);
 
             TotalCount = _results.TotalCount;
