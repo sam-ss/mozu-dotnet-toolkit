@@ -16,7 +16,7 @@ namespace Mozu.Api.ToolKit.Readers
         public string Q { get; set; }
         public int? QLimit { get; set; }
         public int? TotalCount { get; protected set; }
-        public string Mode { get; set; } 
+        
         public  CancellationToken CancellationToken { get; set; }
 
         public async Task<bool> ReadAsync()

@@ -27,5 +27,7 @@ namespace Mozu.Api.ToolKit.Readers
             get { return _results.Items; }
         }
 
+        public string Mode { get; set; }
+
     }
 }
