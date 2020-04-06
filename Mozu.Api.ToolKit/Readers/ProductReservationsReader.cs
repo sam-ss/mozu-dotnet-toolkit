@@ -16,7 +16,7 @@ namespace Mozu.Api.ToolKit.Readers
         {
             //var resource = new ProductReservationResource(Context);
             //_results = await resource.GetProductReservationsAsync(startIndex: StartIndex, pageSize: PageSize, sortBy: SortBy, filter: Filter,
-            //    responseFields: ResponseFields, ct: CancellationToken).ConfigureAwait(false);
+            //    responseFields: ResponseFields, ct: CancellationToken).ConfigureAwait(false);  
 
             TotalCount = _results.TotalCount;
             PageCount = _results.PageCount;
